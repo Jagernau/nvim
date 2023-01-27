@@ -19,10 +19,13 @@ nnoremap 88 :PlugInstall<CR>
 nnoremap 77 :LspInstallInfo<CR>
 nnoremap ,f :CocCommand prettier.formatFile
 
+
+
 autocmd FileType python let b:coc_suggest_disable = 1
 
 call plug#begin('~/.vim/plugged')
 
+Plug 'williamboman/nvim-lsp-installer'
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-nvim-lsp'
@@ -43,16 +46,10 @@ Plug 'maxmellon/vim-jsx-pretty'
 Plug 'preservim/nerdtree'
 Plug 'williamboman/nvim-lsp-installer'
 
-
-
-Plug 'lukas-reineke/indent-blankline.nvim'
-
-
-
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'numToStr/Comment.nvim'
 
-Plug 'dense-analysis/ale'
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'ryanoasis/vim-devicons'
 
 
 call plug#end()
@@ -148,31 +145,37 @@ lua require('Comment').setup()
 
 
 lua << EOF
+
+--Enable (broadcasting) snippet capability for completion
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+require'lspconfig'.html.setup {
+  capabilities = capabilities,
+}
+
+require'lspconfig'.cssls.setup {
+  capabilities = capabilities,
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+require("nvim-lsp-installer").setup {}
 local nvim_lsp = require('lspconfig')
 
-
 require'lspconfig'.bashls.setup{}
-
-
-require("indent_blankline").setup {
-    -- for example, context is off by default, use this to turn it on
-    show_current_context = true,
-    show_current_context_start = true,
-}
-
-
-
-
-vim.opt.list = true
-vim.opt.listchars:append("space:⋅")
-vim.opt.listchars:append("eol:↴")
-
-require("indent_blankline").setup {
-    show_end_of_line = true,
-    space_char_blankline = " ",
-}
-
-
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
@@ -210,7 +213,7 @@ end
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = {'tsserver', 'eslint', 'vuels', 'vimls', 'intelephense', 'pyright', 'rust_analyzer', 'dockerls'}
+local servers = {'rust_analyzer', 'dockerls', 'bashls', 'jedi_language_server', 'pyright', 'yamlls', 'graphql'}
 for _, lsp in pairs(servers) do
 
 
