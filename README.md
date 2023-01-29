@@ -21,9 +21,9 @@ Install PlugInstall Linux `sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share
 
 
 Comands:
-    * 00 navigate nerdtree
-    * 88 PlugInstall 
-    * 99 LspInfo
-    * gc in visual mode coment
-    * up, down, left, right, navigate autocomplete
+* 00 navigate nerdtree
+* 88 PlugInstall 
+* 99 LspInfo
+* gc in visual mode coment
+* up, down, left, right, navigate autocomplete
 
