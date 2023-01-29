@@ -17,13 +17,16 @@ inoremap jk <esc>
 nnoremap 99 :LspInfo<CR>
 nnoremap 88 :PlugInstall<CR>
 nnoremap 77 :LspInstallInfo<CR>
-nnoremap ,f :CocCommand prettier.formatFile
 
 
 
 autocmd FileType python let b:coc_suggest_disable = 1
 
 call plug#begin('~/.vim/plugged')
+
+Plug 'tpope/vim-dadbod'
+Plug 'kristijanhusak/vim-dadbod-ui'
+
 
 Plug 'williamboman/nvim-lsp-installer'
 Plug 'neovim/nvim-lspconfig'
