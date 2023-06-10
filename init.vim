@@ -20,8 +20,6 @@ nnoremap 77 :LspInstallInfo<CR>
 
 
 
-autocmd FileType python let b:coc_suggest_disable = 1
-
 call plug#begin('~/.vim/plugged')
 
 Plug 'tpope/vim-dadbod'
@@ -55,6 +53,13 @@ Plug 'kyazdani42/nvim-web-devicons'
 Plug 'ryanoasis/vim-devicons'
 
 
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
+Plug 'lukas-reineke/indent-blankline.nvim'
+Plug 'tpope/vim-vinegar'
+
+
+
 call plug#end()
 
 
@@ -79,6 +84,9 @@ nnoremap ,<space> :nohlsearch<CR>
 
 
 
+
+
+
 lua << EOF
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
@@ -89,6 +97,13 @@ local luasnip = require 'luasnip'
 
 
 
+
+
+require("indent_blankline").setup {
+    -- for example, context is off by default, use this to turn it on
+    show_current_context = true,
+    show_current_context_start = true,
+}
 
 
 -- nvim-cmp setup
@@ -144,9 +159,6 @@ nnoremap 00 :NERDTree<CR>
 lua require('Comment').setup()
 
 
-
-
-
 lua << EOF
 
 --Enable (broadcasting) snippet capability for completion
@@ -160,10 +172,6 @@ require'lspconfig'.html.setup {
 require'lspconfig'.cssls.setup {
   capabilities = capabilities,
 }
-
-
-
-
 
 
 
@@ -224,7 +232,7 @@ for _, lsp in pairs(servers) do
     on_attach = on_attach,
     flags = {
       -- This will be the default in neovim 0.7+
-      debounce_text_changes = 50,
+      debounce_text_changes = 20,
     }
   }
 end
