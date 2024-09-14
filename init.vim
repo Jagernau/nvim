@@ -49,15 +49,11 @@ Plug 'williamboman/nvim-lsp-installer'
 
 Plug 'numToStr/Comment.nvim'
 
-Plug 'kyazdani42/nvim-web-devicons'
-Plug 'ryanoasis/vim-devicons'
-
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'tpope/vim-vinegar'
-
 
 
 call plug#end()
@@ -95,15 +91,7 @@ vim.o.completeopt = 'menuone,noselect'
 local luasnip = require 'luasnip'
 
 
-
-
-
-
-require("indent_blankline").setup {
-    -- for example, context is off by default, use this to turn it on
-    show_current_context = true,
-    show_current_context_start = true,
-}
+require("ibl").setup()
 
 
 -- nvim-cmp setup
@@ -172,13 +160,6 @@ require'lspconfig'.html.setup {
 require'lspconfig'.cssls.setup {
   capabilities = capabilities,
 }
-
-
-
-
-
-
-
 
 
 
