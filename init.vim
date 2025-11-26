@@ -61,6 +61,7 @@ Plug 'tpope/vim-vinegar'
 Plug 'preservim/tagbar'
 
 Plug 'sontungexpt/better-diagnostic-virtual-text'
+Plug 'lewis6991/gitsigns.nvim'
 call plug#end()
 
 
@@ -84,10 +85,8 @@ endif
 
 
 
-" turn off search highlight
-nnoremap ,<space> :nohlsearch<CR>
 
-
+nnoremap <esc> :nohlsearch<CR><esc>
 
 
 
@@ -247,7 +246,7 @@ vim.diagnostic.config({
       -- Обрезать длинные сообщения, но оставить возможность просмотра полного
       local message = diagnostic.message
       if #message > 60 then
-        return string.sub(message, 1, 57) .. '...'
+        return string.sub(message, 1, 90) .. '...'
       end
       return message
     end,
