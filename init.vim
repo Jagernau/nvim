@@ -10,6 +10,9 @@ set shiftwidth=4
 set expandtab
 set autoindent
 set fileformat=unix
+set clipboard+=unnamedplus
+
+
 filetype indent on      " load filetype-specific indent files
 
 inoremap jk <esc>
@@ -18,7 +21,7 @@ nnoremap 99 :LspInfo<CR>
 nnoremap 88 :PlugInstall<CR>
 nnoremap 77 :LspInstallInfo<CR>
 
-
+nmap <F8> :TagbarToggle<CR>
 
 call plug#begin('~/.vim/plugged')
 
@@ -55,15 +58,21 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'tpope/vim-vinegar'
 
+Plug 'preservim/tagbar'
 
+Plug 'sontungexpt/better-diagnostic-virtual-text'
 call plug#end()
 
 
 
 
+let g:tagbar_sort = 0  
+let g:tagbar_width = 60
+
 colorscheme gruvbox
 
-
+autocmd WinNew * TagbarOpen
+autocmd BufEnter * TagbarOpen
 
 if (has('termguicolors'))
   set termguicolors
@@ -144,6 +153,8 @@ nnoremap 00 :NERDTree<CR>
 
 
 
+
+
 lua require('Comment').setup()
 
 
@@ -160,7 +171,6 @@ require'lspconfig'.html.setup {
 require'lspconfig'.cssls.setup {
   capabilities = capabilities,
 }
-
 
 
 
@@ -185,8 +195,15 @@ local on_attach = function(client, bufnr)
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
   buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+
+  -- buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  buf_set_keymap('n', '11', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
+
+
   buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+
+
+
   buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
   buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
   buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
@@ -205,7 +222,7 @@ end
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = {'rust_analyzer', 'dockerls', 'bashls', 'jedi_language_server', 'pyright', 'yamlls', 'graphql'}
+local servers = {'rust_analyzer', 'dockerls', 'bashls', 'pyright', 'yamlls', 'graphql'}
 for _, lsp in pairs(servers) do
 
 
@@ -217,6 +234,39 @@ for _, lsp in pairs(servers) do
     }
   }
 end
+
+
+
+-- ===== ДОБАВЬТЕ ЭТОТ БЛОК ЗДЕСЬ =====
+-- Настройка диагностик
+vim.diagnostic.config({
+  virtual_text = {
+    prefix = '●',
+    spacing = 2,
+    format = function(diagnostic)
+      -- Обрезать длинные сообщения, но оставить возможность просмотра полного
+      local message = diagnostic.message
+      if #message > 60 then
+        return string.sub(message, 1, 57) .. '...'
+      end
+      return message
+    end,
+  },
+  signs = true,
+  update_in_insert = false,
+  float = {
+    focusable = false,
+    style = "minimal",
+    border = "rounded",
+    source = "always",
+    header = "",
+    prefix = "",
+  }
+})
+-- ===== КОНЕЦ НОВОГО БЛОКА =====
+
+
+
 EOF
 
 
