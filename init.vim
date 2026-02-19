@@ -16,12 +16,12 @@ set clipboard+=unnamedplus
 filetype indent on      " load filetype-specific indent files
 
 inoremap jk <esc>
-
+" Открыть LazyGit по нажатию <Leader>gg
+nnoremap lg :LazyGit<CR>
 nnoremap 99 :LspInfo<CR>
 nnoremap 88 :PlugInstall<CR>
 nnoremap 77 :LspInstallInfo<CR>
 
-nmap <F8> :TagbarToggle<CR>
 
 call plug#begin('~/.vim/plugged')
 
@@ -58,22 +58,22 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'tpope/vim-vinegar'
 
-Plug 'preservim/tagbar'
 
 Plug 'sontungexpt/better-diagnostic-virtual-text'
 Plug 'lewis6991/gitsigns.nvim'
+
+Plug 'nvim-lua/plenary.nvim'   " Обязательная зависимость для многих Lua плагинов
+Plug 'kdheepak/lazygit.nvim'   " Графический интерфейс для Git
+Plug 'sindrets/diffview.nvim'  " Удобный просмотр дифов и истории файлов
+
 call plug#end()
 
 
 
-
-let g:tagbar_sort = 0  
-let g:tagbar_width = 60
+let g:tagbar_sort = 0
 
 colorscheme gruvbox
 
-autocmd WinNew * TagbarOpen
-autocmd BufEnter * TagbarOpen
 
 if (has('termguicolors'))
   set termguicolors
@@ -233,7 +233,6 @@ for _, lsp in pairs(servers) do
     }
   }
 end
-
 
 
 -- ===== ДОБАВЬТЕ ЭТОТ БЛОК ЗДЕСЬ =====
